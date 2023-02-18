@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import Line from "./Line";
-import { FixedSizeList } from "react-window";
+import React, { useEffect, useRef, useState } from 'react'
+import styled from 'styled-components'
+import Line from './Line'
+import { FixedSizeList } from 'react-window'
 
 export interface LogViewerProps {
-  text: string;
-  height?: number;
+  text: string
+  height?: number
 }
 
 interface ViewerProps {
-  height?: number;
+  height?: number
 }
 
 const Viewer = styled.div<ViewerProps>`
@@ -17,17 +17,17 @@ const Viewer = styled.div<ViewerProps>`
   color: #fff;
   overflow: auto;
   padding: 1rem 0;
-`;
+`
 
 const LogViewer: React.FC<LogViewerProps> = ({ text, height }) => {
-  const lines = text.split("\n");
-  const [selectedLine, setSelectedLine] = useState<number>(5000);
-  const listRef = useRef<FixedSizeList>(null);
+  const lines = text.split('\n')
+  const [selectedLine] = useState<number>(5000)
+  const listRef = useRef<FixedSizeList>(null)
 
   useEffect(() => {
-    const list = listRef.current;
-    if (list && selectedLine) list.scrollToItem(selectedLine);
-  }, [selectedLine]);
+    const list = listRef.current
+    if (list && selectedLine) list.scrollToItem(selectedLine)
+  }, [selectedLine])
 
   return (
     <Viewer height={height}>
@@ -43,7 +43,7 @@ const LogViewer: React.FC<LogViewerProps> = ({ text, height }) => {
         {Line}
       </FixedSizeList>
     </Viewer>
-  );
-};
+  )
+}
 
-export default LogViewer;
+export default LogViewer
