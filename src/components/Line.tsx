@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { ListChildComponentProps } from 'react-window'
+import { FixedSizeListProps, ListChildComponentProps } from 'react-window'
 import styled from 'styled-components'
+
+import { useSettingsContext } from '../context/SettingsContext'
 
 export interface LineProps {
   children: React.ReactNode
@@ -29,7 +31,12 @@ const Div = styled.div<DivProps>`
 `
 
 const Line: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+  const { showLineNumbers } = useSettingsContext()
   const [selected, setSelected] = useState(false)
+
+  let line = data[index]
+  if (showLineNumbers) line = `${index + 1} ${line}`
+
   return (
     <Div
       selected={selected}
@@ -38,7 +45,7 @@ const Line: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
       }}
       style={style}
     >
-      {data[index]}
+      {line}
     </Div>
   )
 }

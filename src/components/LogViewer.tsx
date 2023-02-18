@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import Line from './Line'
 import { FixedSizeList } from 'react-window'
+
+import Line from './Line'
+import { SettingsProvider } from '../context/SettingsContext'
 
 export interface LogViewerProps {
   text: string
   height?: number
+  showLineNumbers: boolean
 }
 
 interface ViewerProps {
@@ -19,9 +22,13 @@ const Viewer = styled.div<ViewerProps>`
   padding: 1rem 0;
 `
 
-const LogViewer: React.FC<LogViewerProps> = ({ text, height }) => {
+const LogViewer: React.FC<LogViewerProps> = ({
+  text,
+  height,
+  showLineNumbers,
+}) => {
   const lines = text.split('\n')
-  const [selectedLine] = useState<number>(5000)
+  const [selectedLine, setSelectedLine] = useState<number>(5000)
   const listRef = useRef<FixedSizeList>(null)
 
   useEffect(() => {
@@ -30,19 +37,21 @@ const LogViewer: React.FC<LogViewerProps> = ({ text, height }) => {
   }, [selectedLine])
 
   return (
-    <Viewer height={height}>
-      <FixedSizeList
-        itemData={lines}
-        itemSize={25}
-        itemCount={lines.length}
-        height={800}
-        overscanCount={25}
-        width="100%"
-        ref={listRef}
-      >
-        {Line}
-      </FixedSizeList>
-    </Viewer>
+    <SettingsProvider showLineNumbers={showLineNumbers}>
+      <Viewer height={height}>
+        <FixedSizeList
+          itemData={lines}
+          itemSize={25}
+          itemCount={lines.length}
+          height={800}
+          overscanCount={25}
+          width="100%"
+          ref={listRef}
+        >
+          {Line}
+        </FixedSizeList>
+      </Viewer>
+    </SettingsProvider>
   )
 }
 

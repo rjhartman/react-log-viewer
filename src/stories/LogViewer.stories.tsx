@@ -51,6 +51,7 @@ const output = `03/22 08:51:06 WARNING:.....mailslot_create: setsockopt(MCAST_AD
 export const Default = Template.bind({})
 Default.args = {
   height: 500,
+  showLineNumbers: false,
   text: Array(500)
     .fill(null)
     .map(() => output)
