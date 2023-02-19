@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { ListChildComponentProps } from 'react-window'
 import styled from 'styled-components'
 
+import { useSettingsContext } from '../context/SettingsContext'
+
 export interface LineProps {
   children: React.ReactNode
 }
@@ -9,6 +11,13 @@ export interface LineProps {
 interface DivProps {
   selected: boolean
 }
+
+interface LineNumberProps {
+  selected: boolean
+  width: number
+}
+
+const CHAR_WIDTH = 0.6
 
 const Div = styled.div<DivProps>`
   font-family: 'Roboto', 'Courier';
@@ -28,8 +37,19 @@ const Div = styled.div<DivProps>`
   padding: 0 1rem;
 `
 
+const LineNumber = styled.div<LineNumberProps>`
+  display: flex;
+  justify-content: flex-end;
+  min-width: ${(p) => p.width * CHAR_WIDTH}rem;
+  color: ${(p) => (p.selected ? '#fff' : '#888')};
+  margin-right: 1rem;
+  text-align: right;
+`
+
 const Line: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
+  const { showLineNumbers } = useSettingsContext()
   const [selected, setSelected] = useState(false)
+
   return (
     <Div
       selected={selected}
@@ -38,6 +58,14 @@ const Line: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
       }}
       style={style}
     >
+      {showLineNumbers && (
+        <LineNumber
+          selected={selected}
+          width={(data.length + 1).toString().length}
+        >
+          {index + 1}|
+        </LineNumber>
+      )}
       {data[index]}
     </Div>
   )
