@@ -28,7 +28,7 @@ const LogViewer: React.FC<LogViewerProps> = ({
   showLineNumbers,
 }) => {
   const lines = text.split('\n')
-  const [selectedLine, setSelectedLine] = useState<number>(5000)
+  const [selectedLine] = useState<number>(5000)
   const listRef = useRef<FixedSizeList>(null)
 
   useEffect(() => {

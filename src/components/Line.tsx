@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FixedSizeListProps, ListChildComponentProps } from 'react-window'
+import { ListChildComponentProps } from 'react-window'
 import styled from 'styled-components'
 
 import { useSettingsContext } from '../context/SettingsContext'
@@ -12,7 +12,7 @@ interface DivProps {
   selected: boolean
 }
 
-interface LineNoProps {
+interface LineNumberProps {
   selected: boolean
   width: number
 }
@@ -37,7 +37,7 @@ const Div = styled.div<DivProps>`
   padding: 0 1rem;
 `
 
-const LineNo = styled.div<LineNoProps>`
+const LineNumber = styled.div<LineNumberProps>`
   display: flex;
   justify-content: flex-end;
   min-width: ${(p) => p.width * CHAR_WIDTH}rem;
@@ -59,9 +59,12 @@ const Line: React.FC<ListChildComponentProps> = ({ data, index, style }) => {
       style={style}
     >
       {showLineNumbers && (
-        <LineNo selected={selected} width={(data.length + 1).toString().length}>
+        <LineNumber
+          selected={selected}
+          width={(data.length + 1).toString().length}
+        >
           {index + 1}|
-        </LineNo>
+        </LineNumber>
       )}
       {data[index]}
     </Div>
